@@ -11,6 +11,10 @@ import os
 import sys
 import time
 
+THREADS = int(os.environ.get("BSE_THREADS", "4"))
+for _v in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS", "NUMEXPR_NUM_THREADS"):
+    os.environ.setdefault(_v, str(THREADS))           # one thread pool, before numpy and torch load
+
 import numpy as np
 import pandas as pd
 from PIL import Image
@@ -22,7 +26,6 @@ from bse import sections as S
 Image.MAX_IMAGE_PIXELS = None
 OUT = C.RESULTS / "tiles"
 FEAT = C.DATA / "features"
-THREADS = int(os.environ.get("BSE_THREADS", "6"))
 BATCH = 32
 SPOT_UM = 55.0                            # a Visium spot is 55 µm across; Space Ranger records its pixel diameter
 TILE_UM = C.TILE_PX * C.TILE_MPP          # 112 µm
@@ -114,10 +117,12 @@ def run():
             print(f"  skip    {s.id} (features cached)"); continue
         t1 = time.time()
         img = load_image(s.image)
+        print(f"    {s.id}: image {img.shape[1]}x{img.shape[0]} decoded in {time.time() - t1:,.0f}s", flush=True)
         centres, scale, mpp = spot_centres(s, img.shape)
         side_px = int(round(TILE_UM / mpp))
         tiles = extract_tiles(img, centres, side_px)
         del img
+        print(f"    {s.id}: {len(tiles)} tiles extracted at {time.time() - t1:,.0f}s; encoding", flush=True)
         if enc is None:
             enc = Encoders()
         feats = enc.features(tiles)

@@ -1,3 +1,12 @@
+f70003c8bc7fe0bbc5b5b5b5cbe051719843d51de4cb7ab15fa893039c549c25  data/raw/janesick_cell_barcode_types.xlsx  https://zenodo.org/api/records/10076046/files/Cell_Barcode_Type_Matrices.xlsx/content  Zenodo 10076046
+6b00ec1f4abcafde2d2f140ea0456553dd47b8279c684a38eaa45adc09e72a4b  data/raw/janesick_vis_filtered_feature_bc_matrix.h5  https://zenodo.org/api/records/10076046/files/vis_filtered_feature_bc_matrix.h5/content  Zenodo 10076046
+3586e86078275fd49b6ede4add40d5222bb8410fcf6e5ba5207bdbe9a0c66267  data/raw/janesick_vis_spatial.tar.gz  https://zenodo.org/api/records/10076046/files/vis_spatial.tar.gz/content  Zenodo 10076046
+064b197f3826135a25897143e98c1dc47f0bf61883bdbbc0b086343357987b17  data/raw/janesick_vis_tissue_image.tif  https://zenodo.org/api/records/10076046/files/vis_tissue_image.tif/content  Zenodo 10076046
+681e1c1dfce0e517aa63a43dcdbe25df3de81498a3684f4168c9a8e166a48404  data/raw/janesick_xe1_cell_feature_matrix.h5  https://zenodo.org/api/records/10076046/files/xe1_cell_feature_matrix.h5/content  Zenodo 10076046
+8fc6f2b4c000c42ca97a1bb904a8d7608b33fa69ff86b1be0291016acbc2649c  data/raw/janesick_xe1_cells.csv.gz  https://zenodo.org/api/records/10076046/files/xe1_cells.csv.gz/content  Zenodo 10076046
+691735ef59894aed7e3690cd529bc25fce93033af3c089c00f3a352b34dda9a8  data/raw/janesick_xe2_cell_feature_matrix.h5  https://zenodo.org/api/records/10076046/files/xe2_cell_feature_matrix.h5/content  Zenodo 10076046
+0b35c9c1afc1da17fd862d84a94f1f741e1e7d79e11ddca3871f0c98bf32f102  data/raw/janesick_xe2_cells.csv.gz  https://zenodo.org/api/records/10076046/files/xe2_cells.csv.gz/content  Zenodo 10076046
+762463276e28e7b8a24424aa19558ee51158195f8c4722f6dc681f4de55e8e46  data/raw/li2025_images.zip  https://zenodo.org/api/records/15211538/files/Images.zip/content  Zenodo 15211538
 af9f3eae9e9c3ec096b54b71a6526a5902d5997e244889169ffa14d6a69041b3  data/raw/li2025_spaceranger_output.zip  https://zenodo.org/api/records/15211538/files/spaceranger_output.zip/content  Zenodo 15211538
 57531d348b7c2ae9c5cd6b6c3bf36ce2850945565f8aa381c7edc5b7fc4e4e1e  data/raw/wu2021_filtered_count_matrices.tar.gz  https://zenodo.org/api/records/4739739/files/filtered_count_matrices.tar.gz/content  Zenodo 4739739
 beb8c05063f279fef805349ee8cc0714957576fbfb4af7c119dc46ec5cc8bea3  data/raw/wu2021_metadata.tar.gz  https://zenodo.org/api/records/4739739/files/metadata.tar.gz/content  Zenodo 4739739

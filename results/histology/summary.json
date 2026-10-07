@@ -1,0 +1,75 @@
+{
+ "verdicts": {
+  "P6": {
+   "holds": false,
+   "rule": "candidates: median within-section r < 0.3 and median centred r < 0.15; compartment controls > 0.5",
+   "median_within_r": 0.11962142214179039,
+   "median_centred_r": 0.1432875394821167,
+   "controls_median_r": 0.434052973985672
+  },
+  "P7": {
+   "holds": false,
+   "rule": "Phikon minus ImageNet >= 0.05 and Phikon minus composition < 0.05 (median over candidates)",
+   "phikon_minus_imagenet": 0.01850045658648014,
+   "phikon_minus_composition": 0.0163147245953644
+  },
+  "P8": {
+   "holds": false,
+   "rule": "Spearman(candidate r, |tumour LFC|) >= 0.5",
+   "spearman": 0.47401736194839644,
+   "n": 144
+  }
+ },
+ "sections": [
+  "V19T26-012_A1",
+  "V19T26-012_B1",
+  "V19T26-012_C1",
+  "V19T26-012_D1",
+  "V10F24-112_C1",
+  "V10F24-112_D1",
+  "V10F24-113_A1",
+  "V10F24-114_C1",
+  "V19T26-031_C1",
+  "V19T26-031_B1",
+  "V19T26-032_D1",
+  "V19T26-032_C1",
+  "V19T26-032_B1",
+  "V19T26-032_A1",
+  "janesick_vis"
+ ],
+ "n_genes": 674,
+ "n_candidates": 144,
+ "n_perm": 1000,
+ "controls": [
+  {
+   "gene": "ACTB",
+   "median_within_section_r": 0.2696423828601837,
+   "pooled_centred_r": 0.28066620230674744
+  },
+  {
+   "gene": "COL1A1",
+   "median_within_section_r": 0.5962813496589661,
+   "pooled_centred_r": 0.6010730266571045
+  },
+  {
+   "gene": "DCN",
+   "median_within_section_r": 0.434052973985672,
+   "pooled_centred_r": 0.4886264204978943
+  },
+  {
+   "gene": "EPCAM",
+   "median_within_section_r": 0.3620122969150543,
+   "pooled_centred_r": 0.408532053232193
+  },
+  {
+   "gene": "KRT8",
+   "median_within_section_r": 0.4353121519088745,
+   "pooled_centred_r": 0.4424801766872406
+  },
+  {
+   "gene": "PTPRC",
+   "median_within_section_r": 0.20042897760868073,
+   "pooled_centred_r": 0.24758100509643555
+  }
+ ]
+}
