@@ -17,11 +17,12 @@ dependencies = [
     "matplotlib>=3.9",
     "requests>=2.32",
     "statsmodels>=0.14",
+    "openpyxl>=3.1",
 ]
 
 [project.optional-dependencies]
 # tile extraction and the frozen encoders (CPU)
-histology = ["torch>=2.2", "timm>=1.0", "huggingface-hub>=0.24", "pillow>=10", "tifffile>=2024.1", "zarr>=2.18"]
+histology = ["torch>=2.2", "timm>=1.0", "transformers>=4.44", "huggingface-hub>=0.24", "pillow>=10", "tifffile>=2024.1", "imagecodecs>=2024.1"]
 
 [project.scripts]
 bse = "bse.cli:main"
@@ -47,3 +48,11 @@ extend-exclude = ["docs/site"]
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "B", "UP"]
 ignore = ["E701", "E702", "E731", "E741"]
+
+[tool.ruff.lint.per-file-ignores]
+# a table of URLs and file names: long lines are the readable form
+"src/bse/sources.py" = ["E501"]
+# long f-strings assembling result rows
+"src/bse/stages/compartment.py" = ["E501"]
+"src/bse/stages/tiles.py" = ["E501"]
+"src/bse/stages/histology.py" = ["E501"]
