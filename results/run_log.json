@@ -1,0 +1,42 @@
+{
+ "runs": [
+  {
+   "stage": "compartment",
+   "finished": "2026-10-07T16:10:22+00:00",
+   "commit": "b995078",
+   "seconds": 201.3,
+   "params": {
+    "n_perm": 1000,
+    "n_random": 1000,
+    "seed": 0
+   },
+   "outputs": [
+    "results/compartment/arms.csv",
+    "results/compartment/candidates.csv",
+    "results/compartment/controls.csv",
+    "results/compartment/floor.csv",
+    "results/compartment/genes_1142243F.csv",
+    "results/compartment/genes_1160920F.csv",
+    "results/compartment/genes_CID4290.csv",
+    "results/compartment/genes_CID4465.csv",
+    "results/compartment/genes_CID44971.csv",
+    "results/compartment/genes_CID4535.csv",
+    "results/compartment/genes_V10F24-112_C1.csv",
+    "results/compartment/genes_V10F24-112_D1.csv",
+    "results/compartment/genes_V10F24-113_A1.csv",
+    "results/compartment/genes_V10F24-114_C1.csv",
+    "results/compartment/genes_V19T26-012_A1.csv",
+    "results/compartment/genes_V19T26-012_B1.csv",
+    "results/compartment/genes_V19T26-012_C1.csv",
+    "results/compartment/genes_V19T26-012_D1.csv",
+    "results/compartment/genes_V19T26-031_B1.csv",
+    "results/compartment/genes_V19T26-031_C1.csv",
+    "results/compartment/genes_V19T26-032_A1.csv",
+    "results/compartment/genes_V19T26-032_B1.csv",
+    "results/compartment/genes_V19T26-032_C1.csv",
+    "results/compartment/genes_V19T26-032_D1.csv",
+    "results/compartment/summary.json"
+   ]
+  }
+ ]
+}

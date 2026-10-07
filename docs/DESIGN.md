@@ -137,7 +137,39 @@ were produced without reference to spatial data.
 
 ## 11. Deviations from §1–§9
 
-None yet.
+Each entry carries the date, what changed and why. No prediction or threshold has changed.
+
+1. **2026-10-07 — the deposited data differ from the papers' counts (§3).** Wu et al.'s Zenodo deposit holds
+   6 Visium sections: 4 TNBC and 2 ER+, no HER2+. Li et al.'s deposit holds 14 Visium sections from 3
+   patients (4 TNBC, 10 HER2+), not 23 from 4. HER2-enriched candidates are therefore scored in Li's
+   HER2+ sections (and Janesick's), luminal candidates in Wu's two ER+ sections only.
+2. **2026-10-07 — Li et al. compartment labels (§3, §4).** The deposit carries no per-spot tissue-annotation
+   table (the companion repository has one example section). Li's spots are labelled from a fixed marker
+   panel scored on log-normalised counts (tumour: KRT19, KRT7, CDH1, CLDN4, ERBB3; immune: CD3E, CD2,
+   CD79A, MS4A1, CD68, CD14; stroma: COL1A2, COL3A1, LUM, PDGFRB, SPARC), label = the highest standardised
+   panel score when it leads the runner-up by 0.5 SD, otherwise "other". No control gene and no candidate
+   is in the panel. Wu's pathologist labels remain the expression-independent source; Li's are flagged
+   `markers` in `results/data/sections.csv`.
+3. **2026-10-07 — the comparator and the scale of the compartment score (§4), triggered by P1.** On the
+   first run the control genes pointed the right way but with magnitudes of 0.1–0.6, so the pre-registered
+   threshold of 0.5 was mis-calibrated for the statistic as written (a difference of mean log1p values
+   across mixed spots). Two changes: (i) each compartment is contrasted with the other two *named*
+   compartments only — Wu's necrosis, artefact, uncertain and normal-gland spots are "other" and no longer
+   a comparator, since necrotic spots still carry tumour RNA and normal glands express epithelial genes;
+   (ii) the score is the log2 ratio of mean normalised expression (counts per 10,000, pseudocount 0.1)
+   in the compartment to that in the comparator, the conventional pseudobulk log-fold-change. The 0.5
+   threshold is unchanged and now applies to a log2 ratio. The permutation null is computed the same way.
+4. **2026-10-07 — Wu's "Normal + stroma + lymphocytes" class** had been mapped to stroma by the word
+   "stroma"; any class containing "normal" is "other".
+5. **2026-10-07 — the histology arm's sections (§6).** Wu et al. ship their H&E only as a PDF and the
+   Space Ranger low-resolution images, so by the rule in §6 their six sections are in the compartment
+   analysis and not in the histology arm. Li et al. (full-resolution tif/jpg at 0.172 µm/px) and
+   Janesick et al. (full-resolution tif) carry the histology arm.
+6. **2026-10-07 — P1 as found.** 136 of 158 control checks pass. The failures are KRT8 and KRT18 in TNBC
+   sections (luminal keratins; TNBC tumours express KRT5/14), the two sections whose "tumour" spots are
+   almost all mixed "cancer + stroma + lymphocytes" (1142243F, CID44971), and a few housekeeping or COL1A1
+   calls near the threshold. The labels and normalisation were checked and kept; the failures describe
+   the data (spot-level mixing; the control choice) and the full table is `results/compartment/controls.csv`.
 
 ## 12. Limitations, stated in advance
 

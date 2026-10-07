@@ -1,0 +1,412 @@
+{
+ "verdicts": {
+  "P1": {
+   "holds": false,
+   "rule": "every control gene in its compartment in every section where it exists"
+  },
+  "P2": {
+   "holds": false,
+   "rule": "candidates' mean tumour LFC above the matched floor's p95 in each subtype; >= half called tumour"
+  },
+  "P3": {
+   "holds": false,
+   "rule": "R+D has the highest median tumour LFC in every subtype, >= 0.3 over R"
+  },
+  "P4": {
+   "holds": false,
+   "rule": "replicated minus non-replicated median LFC >= 0.3; OR per SD >= 1.5",
+   "odds_ratio_per_sd": 1.2575311984639832,
+   "or_lo": 0.7627312274135783,
+   "or_hi": 2.2913712387988334,
+   "median_lfc_replicated": 0.19846218824386597,
+   "median_lfc_not_replicated": 0.2521059215068817,
+   "n_replicated": 19,
+   "n_not": 131,
+   "median_difference": -0.05364373326301575
+  },
+  "P5": {
+   "holds": false,
+   "rule": "|Spearman(tumour LFC, dependency)| < 0.2",
+   "spearman": -0.23765145117560782,
+   "lo": -0.38645918467869705,
+   "hi": -0.07419893920895726,
+   "n": 150
+  }
+ },
+ "sections": [
+  {
+   "section": "1142243F",
+   "dataset": "wu2021",
+   "subtype": "TNBC",
+   "study2_subtype": "basal"
+  },
+  {
+   "section": "1160920F",
+   "dataset": "wu2021",
+   "subtype": "TNBC",
+   "study2_subtype": "basal"
+  },
+  {
+   "section": "CID4290",
+   "dataset": "wu2021",
+   "subtype": "ER+",
+   "study2_subtype": "luminal"
+  },
+  {
+   "section": "CID4465",
+   "dataset": "wu2021",
+   "subtype": "TNBC",
+   "study2_subtype": "basal"
+  },
+  {
+   "section": "CID44971",
+   "dataset": "wu2021",
+   "subtype": "TNBC",
+   "study2_subtype": "basal"
+  },
+  {
+   "section": "CID4535",
+   "dataset": "wu2021",
+   "subtype": "ER+",
+   "study2_subtype": "luminal"
+  },
+  {
+   "section": "V19T26-012_A1",
+   "dataset": "li2025",
+   "subtype": "TNBC",
+   "study2_subtype": "basal"
+  },
+  {
+   "section": "V19T26-012_B1",
+   "dataset": "li2025",
+   "subtype": "TNBC",
+   "study2_subtype": "basal"
+  },
+  {
+   "section": "V19T26-012_C1",
+   "dataset": "li2025",
+   "subtype": "TNBC",
+   "study2_subtype": "basal"
+  },
+  {
+   "section": "V19T26-012_D1",
+   "dataset": "li2025",
+   "subtype": "TNBC",
+   "study2_subtype": "basal"
+  },
+  {
+   "section": "V10F24-112_C1",
+   "dataset": "li2025",
+   "subtype": "HER2+",
+   "study2_subtype": "her2"
+  },
+  {
+   "section": "V10F24-112_D1",
+   "dataset": "li2025",
+   "subtype": "HER2+",
+   "study2_subtype": "her2"
+  },
+  {
+   "section": "V10F24-113_A1",
+   "dataset": "li2025",
+   "subtype": "HER2+",
+   "study2_subtype": "her2"
+  },
+  {
+   "section": "V10F24-114_C1",
+   "dataset": "li2025",
+   "subtype": "HER2+",
+   "study2_subtype": "her2"
+  },
+  {
+   "section": "V19T26-031_C1",
+   "dataset": "li2025",
+   "subtype": "HER2+",
+   "study2_subtype": "her2"
+  },
+  {
+   "section": "V19T26-031_B1",
+   "dataset": "li2025",
+   "subtype": "HER2+",
+   "study2_subtype": "her2"
+  },
+  {
+   "section": "V19T26-032_D1",
+   "dataset": "li2025",
+   "subtype": "HER2+",
+   "study2_subtype": "her2"
+  },
+  {
+   "section": "V19T26-032_C1",
+   "dataset": "li2025",
+   "subtype": "HER2+",
+   "study2_subtype": "her2"
+  },
+  {
+   "section": "V19T26-032_B1",
+   "dataset": "li2025",
+   "subtype": "HER2+",
+   "study2_subtype": "her2"
+  },
+  {
+   "section": "V19T26-032_A1",
+   "dataset": "li2025",
+   "subtype": "HER2+",
+   "study2_subtype": "her2"
+  }
+ ],
+ "floor": [
+  {
+   "subtype": "basal",
+   "arm": "R-all",
+   "n_sections": 8,
+   "mean_lfc_tumour": 0.29975390434265137,
+   "floor_p95": 0.06308014690876007,
+   "floor_median": -0.03529307618737221,
+   "floor_pct": 0.0,
+   "beats_floor": true,
+   "fraction_called_tumour": 0.2
+  },
+  {
+   "subtype": "her2",
+   "arm": "R+D",
+   "n_sections": 10,
+   "mean_lfc_tumour": 0.23732466995716095,
+   "floor_p95": 0.0993293821811676,
+   "floor_median": 0.0034293122589588165,
+   "floor_pct": 0.0,
+   "beats_floor": true,
+   "fraction_called_tumour": 0.16
+  },
+  {
+   "subtype": "luminal",
+   "arm": "R+D",
+   "n_sections": 2,
+   "mean_lfc_tumour": 0.24039192497730255,
+   "floor_p95": 0.13537096977233887,
+   "floor_median": 0.06152043491601944,
+   "floor_pct": 0.0,
+   "beats_floor": true,
+   "fraction_called_tumour": 0.16
+  }
+ ],
+ "arms": [
+  {
+   "subtype": "basal",
+   "arm": "MOFA+",
+   "n_genes": 50,
+   "mean_lfc_tumour": 0.26828205585479736,
+   "median_lfc_tumour": 0.25710970163345337,
+   "floor_p95": 0.058479953557252884,
+   "floor_median": -0.03387237340211868,
+   "floor_pct": 0.0,
+   "beats_floor": true
+  },
+  {
+   "subtype": "basal",
+   "arm": "R",
+   "n_genes": 50,
+   "mean_lfc_tumour": 0.23447711765766144,
+   "median_lfc_tumour": 0.21467436850070953,
+   "floor_p95": 0.056090645492076874,
+   "floor_median": -0.03790879249572754,
+   "floor_pct": 0.0,
+   "beats_floor": true
+  },
+  {
+   "subtype": "basal",
+   "arm": "R+D",
+   "n_genes": 50,
+   "mean_lfc_tumour": 0.24344798922538757,
+   "median_lfc_tumour": 0.253185898065567,
+   "floor_p95": 0.060869377106428146,
+   "floor_median": -0.03969921916723251,
+   "floor_pct": 0.0,
+   "beats_floor": true
+  },
+  {
+   "subtype": "basal",
+   "arm": "R+P",
+   "n_genes": 50,
+   "mean_lfc_tumour": 0.2114669233560562,
+   "median_lfc_tumour": 0.24528762698173523,
+   "floor_p95": 0.05843177065253258,
+   "floor_median": -0.04212863743305206,
+   "floor_pct": 0.0,
+   "beats_floor": true
+  },
+  {
+   "subtype": "basal",
+   "arm": "R+P+D",
+   "n_genes": 50,
+   "mean_lfc_tumour": 0.22825045883655548,
+   "median_lfc_tumour": 0.2568817138671875,
+   "floor_p95": 0.05665673315525055,
+   "floor_median": -0.039330534636974335,
+   "floor_pct": 0.0,
+   "beats_floor": true
+  },
+  {
+   "subtype": "basal",
+   "arm": "R-all",
+   "n_genes": 50,
+   "mean_lfc_tumour": 0.29975390434265137,
+   "median_lfc_tumour": 0.2834492325782776,
+   "floor_p95": 0.06385944038629532,
+   "floor_median": -0.033572323620319366,
+   "floor_pct": 0.0,
+   "beats_floor": true
+  },
+  {
+   "subtype": "her2",
+   "arm": "MOFA+",
+   "n_genes": 50,
+   "mean_lfc_tumour": 0.1791837513446808,
+   "median_lfc_tumour": 0.25359436869621277,
+   "floor_p95": 0.10181442648172379,
+   "floor_median": 0.0011705756187438965,
+   "floor_pct": 0.001,
+   "beats_floor": true
+  },
+  {
+   "subtype": "her2",
+   "arm": "R",
+   "n_genes": 50,
+   "mean_lfc_tumour": 0.2825973331928253,
+   "median_lfc_tumour": 0.24295195937156677,
+   "floor_p95": 0.1010700911283493,
+   "floor_median": -0.00032394385198131204,
+   "floor_pct": 0.0,
+   "beats_floor": true
+  },
+  {
+   "subtype": "her2",
+   "arm": "R+D",
+   "n_genes": 50,
+   "mean_lfc_tumour": 0.23732466995716095,
+   "median_lfc_tumour": 0.22505474090576172,
+   "floor_p95": 0.09870500862598419,
+   "floor_median": 0.0021386155858635902,
+   "floor_pct": 0.0,
+   "beats_floor": true
+  },
+  {
+   "subtype": "her2",
+   "arm": "R+P",
+   "n_genes": 50,
+   "mean_lfc_tumour": 0.23666080832481384,
+   "median_lfc_tumour": 0.23108190298080444,
+   "floor_p95": 0.09433245658874512,
+   "floor_median": 0.0009648382547311485,
+   "floor_pct": 0.0,
+   "beats_floor": true
+  },
+  {
+   "subtype": "her2",
+   "arm": "R+P+D",
+   "n_genes": 50,
+   "mean_lfc_tumour": 0.2634156346321106,
+   "median_lfc_tumour": 0.25992080569267273,
+   "floor_p95": 0.09919443726539612,
+   "floor_median": 0.0016622861148789525,
+   "floor_pct": 0.0,
+   "beats_floor": true
+  },
+  {
+   "subtype": "her2",
+   "arm": "R-all",
+   "n_genes": 50,
+   "mean_lfc_tumour": 0.2692638039588928,
+   "median_lfc_tumour": 0.30760326981544495,
+   "floor_p95": 0.09119872003793716,
+   "floor_median": -0.0063638812862336636,
+   "floor_pct": 0.0,
+   "beats_floor": true
+  },
+  {
+   "subtype": "luminal",
+   "arm": "MOFA+",
+   "n_genes": 50,
+   "mean_lfc_tumour": 0.23410560190677643,
+   "median_lfc_tumour": 0.21973809599876404,
+   "floor_p95": 0.12672433257102966,
+   "floor_median": 0.05845588445663452,
+   "floor_pct": 0.0,
+   "beats_floor": true
+  },
+  {
+   "subtype": "luminal",
+   "arm": "R",
+   "n_genes": 50,
+   "mean_lfc_tumour": 0.2481948882341385,
+   "median_lfc_tumour": 0.22989797592163086,
+   "floor_p95": 0.11613911390304565,
+   "floor_median": 0.05106143280863762,
+   "floor_pct": 0.0,
+   "beats_floor": true
+  },
+  {
+   "subtype": "luminal",
+   "arm": "R+D",
+   "n_genes": 50,
+   "mean_lfc_tumour": 0.24039192497730255,
+   "median_lfc_tumour": 0.19288846850395203,
+   "floor_p95": 0.12783388793468475,
+   "floor_median": 0.05699632689356804,
+   "floor_pct": 0.0,
+   "beats_floor": true
+  },
+  {
+   "subtype": "luminal",
+   "arm": "R+P",
+   "n_genes": 50,
+   "mean_lfc_tumour": 0.22163760662078857,
+   "median_lfc_tumour": 0.20645716786384583,
+   "floor_p95": 0.1231723353266716,
+   "floor_median": 0.0535728819668293,
+   "floor_pct": 0.0,
+   "beats_floor": true
+  },
+  {
+   "subtype": "luminal",
+   "arm": "R+P+D",
+   "n_genes": 50,
+   "mean_lfc_tumour": 0.22988098859786987,
+   "median_lfc_tumour": 0.1966591477394104,
+   "floor_p95": 0.1273757368326187,
+   "floor_median": 0.056595031172037125,
+   "floor_pct": 0.0,
+   "beats_floor": true
+  },
+  {
+   "subtype": "luminal",
+   "arm": "R-all",
+   "n_genes": 50,
+   "mean_lfc_tumour": 0.269072562456131,
+   "median_lfc_tumour": 0.24754881858825684,
+   "floor_p95": 0.12395539879798889,
+   "floor_median": 0.05291128158569336,
+   "floor_pct": 0.0,
+   "beats_floor": true
+  }
+ ],
+ "calls": {
+  "mixed": {
+   "basal": 40,
+   "her2": 40,
+   "luminal": 42
+  },
+  "stroma": {
+   "basal": 0,
+   "her2": 2,
+   "luminal": 0
+  },
+  "tumour": {
+   "basal": 10,
+   "her2": 8,
+   "luminal": 8
+  }
+ },
+ "n_perm": 1000,
+ "n_random": 1000
+}
