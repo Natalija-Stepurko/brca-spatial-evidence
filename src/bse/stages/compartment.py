@@ -105,6 +105,51 @@ def profile_ci(y, x, cov, level=3.84):
     return float(b), float(min(ok)), float(max(ok))
 
 
+XENIUM_COMPARTMENT = {"Invasive_Tumor": "tumour", "Prolif_Invasive_Tumor": "tumour", "DCIS_1": "tumour", "DCIS_2": "tumour",
+                      "Stromal": "stroma", "Endothelial": "stroma", "Perivascular-Like": "stroma",
+                      "CD4+_T_Cells": "immune", "CD8+_T_Cells": "immune", "B_Cells": "immune", "Macrophages_1": "immune",
+                      "Macrophages_2": "immune", "IRF7+_DCs": "immune", "LAMP3+_DCs": "immune", "Mast_Cells": "immune",
+                      "Plasmablast": "immune"}
+
+
+def xenium_validation(cand: pd.DataFrame) -> pd.DataFrame | None:
+    """Per-cell check on Janesick's two Xenium replicates: log2 ratio of mean normalised counts in tumour
+    cells vs stroma + immune cells (the authors' supervised labels), for the candidates on the panel and
+    the control genes."""
+    import scanpy as sc
+    xl = C.DATA / "raw" / "janesick_cell_barcode_types.xlsx"
+    if not xl.exists():
+        return None
+    labels = {"xe1": pd.read_excel(xl, sheet_name="Xenium R1 Fig1-5 (supervised)"),
+              "xe2": pd.read_excel(xl, sheet_name="Xenium R2 Fig1-5 (supervised)")}
+    rows = []
+    for rep, lab in labels.items():
+        h5 = C.DATA / "raw" / f"janesick_{rep}_cell_feature_matrix.h5"
+        if not h5.exists():
+            continue
+        a = sc.read_10x_h5(h5); a.var_names_make_unique()
+        comp = lab.set_index(lab.Barcode.astype(str)).Cluster.map(XENIUM_COMPARTMENT).reindex(a.obs_names).fillna("other").values
+        sc.pp.normalize_total(a, target_sum=100)
+        X = a.X.tocsr()
+        named = np.isin(comp, COMPARTMENTS)
+        genes = sorted((set(cand.gene) | set(CONTROL_GENES)) & set(a.var_names))
+        idx = [list(a.var_names).index(g) for g in genes]
+        for c in COMPARTMENTS:
+            m = comp == c; rest = named & ~m
+            l2 = np.log2((np.asarray(X[m][:, idx].mean(axis=0)).ravel() + 0.01)
+                         / (np.asarray(X[rest][:, idx].mean(axis=0)).ravel() + 0.01))
+            for g, v in zip(genes, l2, strict=True):
+                rows.append({"replicate": rep, "gene": g, "compartment": c, "log2_ratio": float(v),
+                             "n_cells": int(m.sum()), "is_candidate": g in set(cand.gene)})
+    if not rows:
+        return None
+    x = pd.DataFrame(rows)
+    x.to_csv(OUT / "xenium.csv", index=False)
+    piv = x[x.compartment == "tumour"].pivot(index="gene", columns="replicate", values="log2_ratio")
+    print("  Xenium per-cell tumour log2 ratio (candidates and controls on the panel):\n" + piv.round(2).to_string())
+    return x
+
+
 def run():
     t0 = time.time()
     OUT.mkdir(parents=True, exist_ok=True)
@@ -237,6 +282,15 @@ def run():
              for i in (rng.integers(0, len(dd), len(dd)) for _ in range(N_BOOT))]
     dep = {"spearman": rho, "lo": float(np.nanpercentile(boots, 2.5)), "hi": float(np.nanpercentile(boots, 97.5)), "n": int(len(dd))}
 
+    xen = xenium_validation(cand)
+    xen_summary = None
+    if xen is not None:
+        xt = xen[(xen.compartment == "tumour")].groupby("gene").log2_ratio.mean()
+        both = cd.groupby("gene").lfc_tumour.median().to_frame("visium").join(xt.rename("xenium"), how="inner")
+        if len(both) >= 4:
+            xen_summary = {"n_genes": int(len(both)), "spearman_visium_vs_xenium": float(spearmanr(both.visium, both.xenium).statistic),
+                           "genes": both.round(3).to_dict("index")}
+
     # 6. verdicts
     seoi = C.SEOI_LFC
     arms_med = arms.pivot(index="arm", columns="subtype", values="median_lfc_tumour")
@@ -253,7 +307,7 @@ def run():
         print(f"  {k}: {'holds' if v['holds'] else 'fails'}")
     summary = {"verdicts": V, "sections": inv.reset_index().to_dict("records"), "floor": floor.to_dict("records"),
                "arms": arms.to_dict("records"), "calls": cd.groupby("subtype").call.value_counts().unstack(fill_value=0).to_dict(),
-               "n_perm": N_PERM, "n_random": N_RAND}
+               "n_perm": N_PERM, "n_random": N_RAND, "xenium": xen_summary}
     (OUT / "summary.json").write_text(json.dumps(summary, indent=1, default=float) + "\n")
     if SMOKE:
         print("smoke run; nothing logged"); return

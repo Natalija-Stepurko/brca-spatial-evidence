@@ -408,5 +408,35 @@
   }
  },
  "n_perm": 1000,
- "n_random": 1000
+ "n_random": 1000,
+ "xenium": {
+  "n_genes": 6,
+  "spearman_visium_vs_xenium": 0.14285714285714288,
+  "genes": {
+   "ERBB2": {
+    "visium": 0.806,
+    "xenium": 1.739
+   },
+   "FOXA1": {
+    "visium": 0.401,
+    "xenium": 3.03
+   },
+   "GATA3": {
+    "visium": 0.565,
+    "xenium": 2.865
+   },
+   "HMGA1": {
+    "visium": 0.086,
+    "xenium": 0.757
+   },
+   "SRPK1": {
+    "visium": 0.494,
+    "xenium": 0.709
+   },
+   "TRAF4": {
+    "visium": 0.536,
+    "xenium": 2.114
+   }
+  }
+ }
 }
