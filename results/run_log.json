@@ -38,6 +38,75 @@
     "results/compartment/xenium.csv",
     "results/compartment/summary.json"
    ]
+  },
+  {
+   "stage": "tiles",
+   "finished": "2026-10-07T20:39:42+00:00",
+   "commit": "6a171ae",
+   "seconds": 10972.4,
+   "params": {
+    "tile_px": 224,
+    "tile_mpp": 0.5,
+    "threads": 4
+   },
+   "outputs": [
+    "results/tiles/encoders.json",
+    "results/tiles/tiles.csv",
+    "results/tiles/tiles_V10F24-112_C1.png",
+    "results/tiles/tiles_V10F24-112_D1.png",
+    "results/tiles/tiles_V10F24-113_A1.png",
+    "results/tiles/tiles_V10F24-114_C1.png",
+    "results/tiles/tiles_V19T26-012_A1.png",
+    "results/tiles/tiles_V19T26-012_B1.png",
+    "results/tiles/tiles_V19T26-012_C1.png",
+    "results/tiles/tiles_V19T26-012_D1.png",
+    "results/tiles/tiles_V19T26-031_B1.png",
+    "results/tiles/tiles_V19T26-031_C1.png",
+    "results/tiles/tiles_V19T26-032_A1.png",
+    "results/tiles/tiles_V19T26-032_B1.png",
+    "results/tiles/tiles_V19T26-032_C1.png",
+    "results/tiles/tiles_V19T26-032_D1.png",
+    "results/tiles/tiles_janesick_vis.png"
+   ]
+  },
+  {
+   "stage": "histology",
+   "finished": "2026-10-07T23:26:21+00:00",
+   "commit": "6a171ae",
+   "seconds": 9963.3,
+   "params": {
+    "pca_dim": 256,
+    "alphas": [
+     1.0,
+     10.0,
+     100.0,
+     1000.0
+    ],
+    "n_perm": 1000,
+    "seed": 1
+   },
+   "outputs": [
+    "results/histology/genes_composition.csv",
+    "results/histology/genes_imagenet.csv",
+    "results/histology/genes_phikon.csv",
+    "results/histology/per_section_composition.csv",
+    "results/histology/per_section_imagenet.csv",
+    "results/histology/per_section_phikon.csv",
+    "results/histology/summary.json"
+   ]
+  },
+  {
+   "stage": "report",
+   "finished": "2026-10-07T23:26:23+00:00",
+   "commit": "6a171ae",
+   "seconds": 0.6,
+   "params": {},
+   "outputs": [
+    "results/report/fig_compartment.png",
+    "results/report/fig_histology.png",
+    "results/report/fig_outcomes.png",
+    "results/report/summary.json"
+   ]
   }
  ]
 }

@@ -13,6 +13,8 @@ has written it to results/.
 import base64
 import html
 import json
+
+import pandas as pd
 from datetime import date
 from pathlib import Path
 
@@ -211,12 +213,73 @@ def s_predictions():
 </section>"""
 
 
+def results_text():
+    V = SUMMARY["verdicts"]
+    comp = SUMMARY["compartment"]
+    floor = {r["subtype"]: r for r in comp["floor"]}
+    calls = SUMMARY["calls"]
+    n = SUMMARY["n_candidates"]
+    out = []
+    frac = {s: calls.get("tumour", {}).get(s, 0) / sum(v.get(s, 0) for v in calls.values()) for s in SUB_LABEL}
+    out.append(f"<p><b>Nominated candidates are more tumour-cell-expressed than random genes of the same abundance, "
+               f"in every subtype — modestly.</b> Mean tumour log2 ratio of the candidate set against the 95th percentile "
+               f"of {comp['n_random']:,} matched random sets: "
+               + "; ".join(f"{SUB_LABEL[s]} {f3(floor[s]['mean_lfc_tumour'])} vs {f3(floor[s]['floor_p95'])}" for s in SUB_LABEL if s in floor)
+               + f". Yet only {', '.join(f'{pct(frac[s])}' for s in SUB_LABEL)} of the candidates clear the 0.5 call threshold "
+               f"in the three subtypes, so P2 {'holds' if V['P2']['holds'] else 'fails on its second clause'}. The per-cell Xenium check "
+               f"shows why: the same genes that sit at 0.2–0.5 across mixed 55 µm spots sit at 2–3 log2 across single cells.</p>")
+    p4, p5 = V["P4"], V["P5"]
+    out.append(f"<p><b>Compartment does not explain which nominations replicated between cohorts.</b> Odds ratio of "
+               f"replication per SD of tumour score {p4.get('odds_ratio_per_sd', float('nan')):.2f} "
+               f"[{p4.get('or_lo', float('nan')):.2f}, {p4.get('or_hi', float('nan')):.2f}]; median difference "
+               f"{f3(p4.get('median_difference'))}. P4 {'holds' if p4['holds'] else 'fails'}.</p>")
+    out.append(f"<p><b>It does track dependency.</b> Spearman correlation between a candidate's tumour score and the mean "
+               f"CRISPR effect in subtype-matched lines: {p5['spearman']:.2f} [{p5['lo']:.2f}, {p5['hi']:.2f}] over {p5['n']} "
+               f"candidates: more tumour-cell-specific candidates are the ones cells depend on more. P5 predicted "
+               f"|ρ| < 0.2 and {'holds' if p5['holds'] else 'fails, in the informative direction'}.</p>")
+    arms = pd.DataFrame(comp["arms"]) if comp.get("arms") else None
+    if arms is not None and not arms.empty:
+        piv = arms.pivot(index="arm", columns="subtype", values="median_lfc_tumour")
+        out.append("<p><b>The nominating arm barely matters.</b> Median tumour score by arm: "
+                   + "; ".join(f"{a} " + "/".join(f"{piv.loc[a, s]:.2f}" for s in piv.columns) for a in piv.index)
+                   + f" (basal / HER2 / luminal). P3 {'holds' if V['P3']['holds'] else 'fails'}.</p>")
+    c = pd.read_csv(RES / "compartment" / "controls.csv")
+    out.append(f"<p><b>Controls.</b> {int(c.passes.dropna().sum())} of {int(c.passes.notna().sum())} control checks pass "
+               f"(P1 {'holds' if V['P1']['holds'] else 'fails'}); the failures are KRT8 and KRT18 in TNBC sections "
+               f"(luminal keratins) and the two sections whose tumour spots are almost all mixed with stroma and lymphocytes. "
+               f"The design-level changes made at first contact with the data are in DESIGN §11.</p>")
+    if "P6" in V:
+        p6, p7, p8 = V["P6"], V["P7"], V["P8"]
+        out.append(f"<p><b>Histology.</b> From the H&E image alone, a frozen Phikon encoder predicts the candidates at a median "
+                   f"within-section Pearson r of {p6['median_within_r']:.2f} (section-centred pooled {p6['median_centred_r']:.2f}); "
+                   f"the compartment control genes reach {p6['controls_median_r']:.2f}. P6 {'holds' if p6['holds'] else 'fails'}. "
+                   f"Phikon minus ImageNet ViT-B: {f3(p7['phikon_minus_imagenet'])}; Phikon minus a model that knows only the spot's "
+                   f"compartment: {f3(p7['phikon_minus_composition'])}. P7 {'holds' if p7['holds'] else 'fails'}. A candidate's "
+                   f"histology correlation and its |tumour score| correlate at Spearman {p8['spearman']:.2f} (P8 "
+                   f"{'holds' if p8['holds'] else 'fails'}).</p>")
+    return "".join(out)
+
+
 def s_results():
+    if SUMMARY is None:
+        body = (pending("compartment", "Compartment calls for the 150 candidates, per subtype, against both nulls (P1–P3)")
+                + pending("compartment", "Compartment score against replication status and dependency (P4, P5)")
+                + pending("histology", "Held-out histology correlations: candidates, controls, both encoders, the composition baseline (P6–P8)"))
+    else:
+        body = (results_text()
+                + figure("fig_compartment.png", "Tumour log2 ratio of every candidate per subtype against the matched-random floor")
+                + '<p class="figcap">Each bar is a candidate\'s tumour log2 ratio (median over the sections of its subtype), coloured by '
+                  'its compartment call; the dashed line is the 95th percentile of the matched-random floor for a set of that size.</p>'
+                + figure("fig_outcomes.png", "Compartment score against replication status and against dependency")
+                + '<p class="figcap">Left: tumour score of replicated and non-replicated candidates. Right: tumour score against the '
+                  'mean CRISPR gene effect in subtype-matched lines (dashed: the −0.5 dependency threshold).</p>'
+                + (figure("fig_histology.png", "Histology prediction of candidates and control genes")
+                   + '<p class="figcap">Left: cumulative distribution of per-candidate held-out correlations for Phikon, an ImageNet '
+                     'ViT-B and the compartment-composition baseline. Right: the control genes under Phikon.</p>'
+                   if "P6" in SUMMARY["verdicts"] else pending("histology", "Held-out histology correlations (P6–P8)")))
     return f"""<section class="sec" id="results">
   <h2>Results</h2>
-  {pending("compartment", "Compartment calls for the 150 candidates, per subtype, against both nulls (P1–P3)")}
-  {pending("compartment", "Compartment score against replication status and dependency (P4, P5)")}
-  {pending("histology", "Held-out histology correlations: candidates, controls, both encoders, the composition baseline (P6–P8)")}
+  {body}
 </section>"""
 
 

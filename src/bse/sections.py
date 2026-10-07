@@ -117,6 +117,25 @@ def load_wu() -> list[Section]:
     return out
 
 
+def _find_image(folder: Path, name, visium_id: str) -> Path | None:
+    """The metadata's file name, or (one deposited name has a typo in the slide id) the file that carries
+    the slide number and capture area, e.g. '113.A1' for V10F24-113_A1."""
+    if not folder.exists():
+        return None
+    if isinstance(name, str) and (folder / name).exists():
+        return folder / name
+    num, area = visium_id.split("-")[1].split("_")          # V10F24-113_A1 -> 113, A1
+    for f in folder.iterdir():
+        if f"{num}.{area}" in f.name or f"{num}_{area}" in f.name:
+            return f
+    if isinstance(name, str):                                 # BCSA1: ..._V19T26-012_KT_V1-Spot000001.jpg
+        tail = name.split("_KT_")[-1] if "_KT_" in name else None
+        for f in folder.iterdir():
+            if tail and f.name.endswith(tail):
+                return f
+    return None
+
+
 def load_li() -> list[Section]:
     base = UNPACKED / "li" / "spaceranger_output"
     meta = pd.read_excel(base / "Visium_metadata.xlsx")
@@ -132,7 +151,7 @@ def load_li() -> list[Section]:
         for c in ("array_row", "array_col", "pxl_row", "pxl_col"):
             a.obs[c] = pos.reindex(a.obs_names)[c].values
         a.obs["compartment"] = marker_compartment(a).values
-        img = next(img_dir.rglob(r.Images), None) if isinstance(r.Images, str) else None
+        img = _find_image(img_dir / "Images" / "raw_images", r.Images, sid)
         out.append(Section(sid, "li2025", r.Patientid, r.type, a, img, "markers"))
     return out
 

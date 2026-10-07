@@ -1,0 +1,7 @@
+{
+ "phikon": "owkin/phikon (ViT-B/16, iBOT) via the Hugging Face hub",
+ "imagenet": "vit_base_patch16_224.augreg_in21k_ft_in1k",
+ "tile_px": 224,
+ "tile_mpp": 0.5,
+ "threads": 4
+}

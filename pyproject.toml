@@ -54,5 +54,6 @@ ignore = ["E701", "E702", "E731", "E741"]
 "src/bse/sources.py" = ["E501"]
 # long f-strings assembling result rows
 "src/bse/stages/compartment.py" = ["E501"]
-"src/bse/stages/tiles.py" = ["E501"]
+"src/bse/stages/tiles.py" = ["E501", "E402"]  # thread-pool variables are set before numpy loads
 "src/bse/stages/histology.py" = ["E501"]
+"src/bse/stages/report.py" = ["E501"]

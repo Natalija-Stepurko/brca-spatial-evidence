@@ -170,6 +170,14 @@ Each entry carries the date, what changed and why. No prediction or threshold ha
    almost all mixed "cancer + stroma + lymphocytes" (1142243F, CID44971), and a few housekeeping or COL1A1
    calls near the threshold. The labels and normalisation were checked and kept; the failures describe
    the data (spot-level mixing; the control choice) and the full table is `results/compartment/controls.csv`.
+7. **2026-10-07 — histology arm as run (§6).** 15 sections: Li et al.'s 14 and Janesick et al.'s serial Visium
+   section. The µm per pixel of each full-resolution image is derived from the 55 µm spot diameter Space
+   Ranger records (0.146 for the tif slides, 0.232 for the JPEG slides, 0.430 for the CytAssist image); the
+   tile side in pixels follows from it and every tile is resized to 224 px. Targets present in every
+   section: 144 of the 150 candidates, 6 of the 8 control genes (GAPDH and KRT18 are absent from one
+   section's filtered matrix) and 524 variable genes, 674 in all. The ridge penalty, chosen by inner
+   leave-one-section-out from {1, 10, 100, 1000}, was 1,000 in every outer fold; a wider grid was not tried
+   after the fact. Thread pools were capped at 4 (the first attempt oversubscribed the cores threefold).
 
 ## 12. Limitations, stated in advance
 

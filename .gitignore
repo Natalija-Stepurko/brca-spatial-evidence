@@ -49,3 +49,4 @@ CLAUDE.md
 *.tiff
 *.svs
 *.h5
+!results/tiles/
